@@ -23,12 +23,14 @@ def submit_flag():
     print(result.get("points"))
     if result.get("points") == 0:
         result = "Incorrect flag"
+    elif result.get("points") == -1:
+        result = "Flag already submitted"
     else:
         points = result.get("points")
         team = result.get("team_name")
         result = f"Flag accepted! You earned {points} points. Team: {team}"
     
-    result_label.config(text=result, fg="red" if result == "Incorrect flag" else "green")
+    result_label.config(text=result, fg="red" if result == "Incorrect flag" or result == "Flag already submitted" else "green")
 
 # Create the main application window
 root = tk.Tk()

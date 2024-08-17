@@ -28,6 +28,12 @@ async def check_flag(challenge: str, flag: str, ip: str):
     
     # Check if points were found
     if points and team_name:
+        mycursor.execute('SELECT flag FROM solved WHERE team_name = %s AND flag = %s', (team_name[0], flag))
+        solved = mycursor.fetchone()
+        if solved:
+            return {"points": -1, "team_name": team_name[0]}
+        mycursor.execute('INSERT INTO solved (team_name, flag, points) VALUES (%s, %s, %s)', (team_name[0], flag, points[0]))
+        mydb.commit()
         return {"points": points[0], "team_name": team_name[0]}
     
     return {"points": 0, "team_name": None}

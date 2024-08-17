@@ -1,9 +1,11 @@
 import tkinter as tk
 import requests
+import socket
 
 def submit_flag():
-    challenge_name = "test challenge"  # Replace with your actual challenge name
+    challenge_name = "casey challenge"  # Replace with your actual challenge name
     flag = entry.get()
+    ip = socket.gethostbyname(socket.gethostname())
 
     # Define your API endpoint
     url = 'http://127.0.0.1:8000/check'  # Replace with your actual API URL
@@ -11,16 +13,20 @@ def submit_flag():
     # Define the parameters to send with the request
     params = {
         "challenge": challenge_name,
-        "flag": flag
+        "flag": flag,
+        "ip": str(ip)
     }
 
     # Send a GET request to the API
     response = requests.get(url, params=params)
-    result = response.text
-    if result == "0":
+    result = response.json()
+    print(result.get("points"))
+    if result.get("points") == 0:
         result = "Incorrect flag"
     else:
-        result = f"Flag accepted! You earned {result} points."
+        points = result.get("points")
+        team = result.get("team_name")
+        result = f"Flag accepted! You earned {points} points. Team: {team}"
     
     result_label.config(text=result, fg="red" if result == "Incorrect flag" else "green")
 

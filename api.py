@@ -38,6 +38,12 @@ async def check_flag(challenge: str, flag: str, ip: str):
     
     return {"points": 0, "team_name": None}
 
+@app.get('/top-4')
+async def top_4():
+    mycursor.execute('SELECT team_name, SUM(points) FROM solved GROUP BY team_name ORDER BY SUM(points) DESC LIMIT 4')
+    result = mycursor.fetchall()
+    return result
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host='127.0.0.1', port=8000)

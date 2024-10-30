@@ -44,6 +44,12 @@ async def top_4():
     result = mycursor.fetchall()
     return result
 
+@app.get('leaderboard')
+async def leaderboard():
+    mycursor.execute('SELECT team_name, SUM(points) FROM solved GROUP BY team_name ORDER BY SUM(points) DESC')
+    result = mycursor.fetchall()
+    return result
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host='127.0.0.1', port=8000)

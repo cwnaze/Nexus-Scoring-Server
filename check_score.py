@@ -2,6 +2,11 @@ import tkinter as tk
 import requests
 import socket
 
+def get_ip():
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        s.connect(("8.8.8.8, 80"))
+        return s.getsockname()[0]
+
 def submit_flag():
     challenge_name = ""  # Replace with your actual challenge name
     flag = entry.get()
@@ -34,6 +39,7 @@ def submit_flag():
 
 # Create the main application window
 root = tk.Tk()
+
 root.title("Flag Submission")
 root.geometry("400x200")
 

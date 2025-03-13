@@ -3,7 +3,7 @@ import requests
 import socket
 
 def submit_flag():
-    challenge_name = "casey challenge"  # Replace with your actual challenge name
+    challenge_name = ""  # Replace with your actual challenge name
     flag = entry.get()
     ip = socket.gethostbyname(socket.gethostname())
 
